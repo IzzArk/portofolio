@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.fade-in {
+    opacity: 0;
+}
+
+.spacer {
+    height: 100vh;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+section {
+    padding: 5rem 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #003E8F;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+
+#lights {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.waves::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: #160000;
+    border-radius: 50%;
+    transform: translate3d(calc(var(-0.5rem) - 50%), calc(var(50%) - 50%), 0);
+    will-change: transform;
+}
+
+.waves-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.lanyard-wrapper {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1);
+    transform-origin: center;
+}

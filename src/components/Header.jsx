@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Twirl as Hamburger } from 'hamburger-react'
 import { motion, AnimatePresence } from "framer-motion";
-import logo from '../assets/logo-iz.png';
+import logo from '../assets/logo.png';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,7 +9,7 @@ const Header = () => {
     return (
         <header className="fixed w-full bg-gray-900/80 backdrop-blur-sm z-50 border-b border-gray-800">
             <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center py-6">
-                <img className="invert size-12" src={logo} alt="Logo" />
+                <img className=" size-12" src={logo} alt="Logo" />
 
                 <nav className="hidden md:flex gap-8">
                     {['Home', 'About', 'Experience', 'Projects', 'Certificates', 'Contact'].map((item) => (

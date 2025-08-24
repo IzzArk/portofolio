@@ -1,23 +1,41 @@
-import { useState, useEffect } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
-import { certificates } from './Data/DataCertificates';
+import { useState, useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { certificates } from "./Data/DataCertificates";
 
 const Certificates = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [direction, setDirection] = useState(1); // 1: next, -1: prev
+    const [direction, setDirection] = useState(1);
     const [isHovered, setIsHovered] = useState(false);
-    const itemsPerSlide = 3;
+    const [itemsPerSlide, setItemsPerSlide] = useState(3);
+
+    // ✅ Update itemsPerSlide berdasarkan width
+    useEffect(() => {
+        const updateItemsPerSlide = () => {
+            if (window.innerWidth < 640) {
+                setItemsPerSlide(1); // mobile
+            } else if (window.innerWidth < 1024) {
+                setItemsPerSlide(2); // tablet
+            } else {
+                setItemsPerSlide(3); // desktop
+            }
+        };
+
+        updateItemsPerSlide();
+        window.addEventListener("resize", updateItemsPerSlide);
+        return () => window.removeEventListener("resize", updateItemsPerSlide);
+    }, []);
+
     const totalSlides = Math.ceil(certificates.length / itemsPerSlide);
 
     const goToPrev = () => {
         setDirection(-1);
-        setCurrentSlide(prev => (prev === 0 ? totalSlides - 1 : prev - 1));
+        setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
     };
 
     const goToNext = () => {
         setDirection(1);
-        setCurrentSlide(prev => (prev === totalSlides - 1 ? 0 : prev + 1));
+        setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
     };
 
     useEffect(() => {
@@ -49,20 +67,24 @@ const Certificates = () => {
                         <AnimatePresence initial={false} custom={direction}>
                             <motion.div
                                 key={currentSlide}
-                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 absolute w-full"
+                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 absolute w-full"
                                 initial={{ x: direction > 0 ? 300 : -300, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 exit={{ x: direction > 0 ? -300 : 300, opacity: 0 }}
-                                transition={{ duration: 0.5, ease: 'easeInOut' }}
+                                transition={{ duration: 0.5, ease: "easeInOut" }}
                             >
-                                {getVisibleCertificates().map(cert => (
+                                {getVisibleCertificates().map((cert) => (
                                     <div
                                         key={cert.id}
                                         className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 group"
                                     >
                                         <div className="relative overflow-hidden h-80">
                                             <img
-                                                src={typeof cert.image === 'string' ? cert.image : cert.image?.default}
+                                                src={
+                                                    typeof cert.image === "string"
+                                                        ? cert.image
+                                                        : cert.image?.default
+                                                }
                                                 alt={`Certificate for ${cert.title} from ${cert.issuer}`}
                                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                             />
@@ -78,9 +100,13 @@ const Certificates = () => {
                                             <h3 className="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors duration-300">
                                                 {cert.title}
                                             </h3>
-                                            <p className="text-gray-300 mb-4 text-sm">{cert.description}</p>
+                                            <p className="text-gray-300 mb-4 text-sm">
+                                                {cert.description}
+                                            </p>
                                             <div className="flex justify-between items-center">
-                                                <span className="text-gray-400 text-sm">{cert.date}</span>
+                                                <span className="text-gray-400 text-sm">
+                                                    {cert.date}
+                                                </span>
                                                 <a
                                                     href={cert.link}
                                                     target="_blank"
@@ -137,7 +163,8 @@ const Certificates = () => {
                                     setCurrentSlide(index);
                                 }
                             }}
-                            className={`w-3 h-3 rounded-full transition-all duration-300 ${currentSlide === index ? 'bg-indigo-500' : 'bg-gray-600'}`}
+                            className={`w-3 h-3 rounded-full transition-all duration-300 ${currentSlide === index ? "bg-indigo-500" : "bg-gray-600"
+                                }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}

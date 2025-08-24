@@ -8,6 +8,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import './assets/styles/App.css';
 import Certificates from './components/Certificates';
+import LoopLogo from './components/LoopLogo';
 
 function App() {
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
       <Header />
       <Hero />
       <About />
+      <LoopLogo />
       <Experience />
       <Projects />
       <Certificates />
